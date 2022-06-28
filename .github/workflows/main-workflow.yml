@@ -18,4 +18,4 @@ jobs:
           dotnet run
       - run: |
           cd alerter
-          bash ../.github/workflows/expectfail.sh dotnet run
+          dotnet run
