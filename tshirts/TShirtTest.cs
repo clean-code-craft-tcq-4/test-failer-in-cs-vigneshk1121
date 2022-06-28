@@ -1,4 +1,5 @@
-﻿using System.Diagnostics;
+﻿using System;
+using System.Diagnostics;
 
 namespace tshirts
 {
@@ -6,7 +7,7 @@ namespace tshirts
     {
         static SizeChart Size(int size)
         {
-            if (size <= 38)
+            if (size < 38)
             {
                 return SizeChart.Small;
             }
@@ -14,8 +15,12 @@ namespace tshirts
             {
                 return SizeChart.Medium; ;
             }
+            if (size > 42)
+            {
+                return SizeChart.Large;
+            }
 
-            return SizeChart.Large;
+            return SizeChart.Invalid;
         }
 
         public static void ThrowErrorIfShirtValueIsNotMatching()
@@ -23,8 +28,8 @@ namespace tshirts
             Debug.Assert(Size(37) == SizeChart.Small);
             Debug.Assert(Size(40) == SizeChart.Medium);
             Debug.Assert(Size(43) == SizeChart.Large);
-            Debug.Assert(Size(42) == SizeChart.Large);
-            Debug.Assert(Size(38) == SizeChart.Small);
+            Debug.Assert(Size(42) == SizeChart.Invalid);
+            Debug.Assert(Size(38) == SizeChart.Invalid);
         }
     }
 
@@ -32,6 +37,7 @@ namespace tshirts
     {
         Small = 1,
         Medium = 2,
-        Large = 3
+        Large = 3,
+        Invalid = 0
     }
 }
