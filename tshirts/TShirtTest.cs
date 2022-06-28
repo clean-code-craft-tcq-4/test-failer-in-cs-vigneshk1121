@@ -1,33 +1,37 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Diagnostics;
 
 namespace tshirts
 {
     static class TShirtTest
     {
-        static string Size(int cms)
+        static SizeChart Size(int size)
         {
-            if (cms < 38)
+            if (size <= 38)
             {
-                return "S";
+                return SizeChart.Small;
             }
-            if (cms > 38 && cms < 42)
+            if (size > 38 && size < 42)
             {
-                return "M";
+                return SizeChart.Medium; ;
             }
 
-            return "L";
+            return SizeChart.Large;
         }
 
         public static void ThrowErrorIfShirtValueIsNotMatching()
         {
-            Debug.Assert(Size(37) == "M");
-            Debug.Assert(Size(40) == "L");
-            Debug.Assert(Size(43) == "S");
+            Debug.Assert(Size(37) == SizeChart.Small);
+            Debug.Assert(Size(40) == SizeChart.Medium);
+            Debug.Assert(Size(43) == SizeChart.Large);
+            Debug.Assert(Size(42) == SizeChart.Large);
+            Debug.Assert(Size(38) == SizeChart.Small);
         }
+    }
+
+    public enum SizeChart
+    {
+        Small = 1,
+        Medium = 2,
+        Large = 3
     }
 }
