@@ -1,21 +1,39 @@
-﻿using System.Diagnostics;
+﻿using System;
 
 namespace alerter
 {
-    internal class Alerts
+    public interface IAlerter
     {
-        public int alertFailureCount = 0;
+        void AlertInCelcius(float farenheit);
+   }
+
+    internal class Alerts: IAlerter
+    {
+        public int AlertFailureCount = 0;
+
+        private float ConvertToCelcius(float farenheit)
+        {
+            return (farenheit - 32) * 5 / 9;
+        }
 
         public void AlertInCelcius(float farenheit)
         {
-           StubNetwork stubNetwork = new StubNetwork();
-            float celcius = (farenheit - 32) * 5 / 9;
-            int returnCode = stubNetwork.NetworkAlertStub(celcius);
-            if (returnCode != 200)
+            float celcius = ConvertToCelcius(farenheit);
+
+            INetwork network = new RealNetwork();
+
+            INetwork stubNetwork = new StubNetwork();
+
+           var result =  stubNetwork.NetworkAlert(celcius);
+
+            if (result != 200)
             {
-                alertFailureCount += 0;
-                Debug.Assert(alertFailureCount > 0);
+                AlertFailureCount++;
             }
+
+            stubNetwork.TestStubNetwork(AlertFailureCount);
+
+            Console.WriteLine("{0} alerts failed.", AlertFailureCount);
         }
     }
 }
